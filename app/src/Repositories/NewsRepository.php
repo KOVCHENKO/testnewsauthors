@@ -16,15 +16,18 @@ class NewsRepository
         $this->news = $news;
     }
 
-    public function getAll(): Collection
+    public function getAll($skippedItems, $numberOfItems)
     {
         return $this->news
             ->with('author')
-            ->get();
+            ->skip($skippedItems)->take($numberOfItems)->get();
     }
 
-    public function getFiltered($createdAt, $authorId): Collection
+    public function getFiltered($from, $to, $authorId): Collection
     {
-
+        return $this->news
+            ->where('author_id', $authorId)
+            ->whereBetween('created_at', $from, $to)
+            ->get();
     }
 }

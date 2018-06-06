@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\src\Services\NewsService;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -14,18 +15,13 @@ class NewsController extends Controller
         $this->newsService = $newsService;
     }
 
-    public function getAll()
+    public function getAll($pageNumber)
     {
-        return $this->newsService->getAll();
+        return $this->newsService->getAll($pageNumber);
     }
 
-    public function getById($id)
+    public function getFiltered(Request $request)
     {
-
-    }
-
-    public function getFiltered($createdAt, $authorId)
-    {
-
+        return $this->newsService->getFiltered($request);
     }
 }
