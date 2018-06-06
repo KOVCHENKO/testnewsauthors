@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 
+use App\src\Services\NewsService;
+
 class NewsController extends Controller
 {
-    public function getNews()
-    {
+    protected $newsService;
 
+    public function __construct(NewsService $newsService)
+    {
+        $this->newsService = $newsService;
+    }
+
+    public function getAll()
+    {
+        return $this->newsService->getAll();
     }
 
     public function getById($id)
@@ -15,7 +24,7 @@ class NewsController extends Controller
 
     }
 
-    public function getByFilter($parameters)
+    public function getFiltered($createdAt, $authorId)
     {
 
     }

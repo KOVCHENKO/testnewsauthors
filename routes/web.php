@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::prefix('news/')->group(function() {
+    Route::get('get_all', 'NewsController@getAll');
+    Route::get('get_filtered/{created_at}/{author_id}', 'NewsController@getFiltered');
+});
