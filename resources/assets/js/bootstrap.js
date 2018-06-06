@@ -5,6 +5,11 @@ import VueRouter from 'vue-router';
 window.Vue = Vue;
 Vue.use(VueRouter);
 window._ = require('lodash');
+
+/* ElementUI */
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
 // window.Popper = require('popper.js').default;
 
 /**

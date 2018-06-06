@@ -7,6 +7,11 @@ let routes = [
         component: require('./components/ExampleComponent.vue')
     },
 
+    {
+        path: '/news',
+        component: require('./components/News.vue')
+    },
+
 ];
 
 const router = new VueRouter({
