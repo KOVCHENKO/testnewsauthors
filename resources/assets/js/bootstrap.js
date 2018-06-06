@@ -1,6 +1,11 @@
+import Vue from 'vue';
 
+/* Vue router */
+import VueRouter from 'vue-router';
+window.Vue = Vue;
+Vue.use(VueRouter);
 window._ = require('lodash');
-window.Popper = require('popper.js').default;
+// window.Popper = require('popper.js').default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
