@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class NewsService
 {
-    protected $newsNumberAtPage = 2;
+    protected $newsNumberAtPage = 5;
 
     protected $newsRepository;
 
