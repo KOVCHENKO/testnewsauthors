@@ -28,7 +28,7 @@ class NewsService
         return $newsAtPage;
     }
 
-    private function getAtPage(string $page, Collection $news): Collection
+    private function getAtPage($page, Collection $news): Collection
     {
         if (!isset($page)) {
             $page = 1;
