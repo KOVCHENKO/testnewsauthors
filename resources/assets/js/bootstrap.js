@@ -9,9 +9,10 @@ window._ = require('lodash');
 /* ElementUI */
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+import locale from 'element-ui/lib/locale/lang/ru-RU'
+Vue.use(ElementUI, { locale });
 // window.Popper = require('popper.js').default;
-
+window.moment = require('moment');
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
