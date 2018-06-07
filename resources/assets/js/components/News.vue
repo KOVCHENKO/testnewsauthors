@@ -63,7 +63,7 @@
 
         methods: {
      
-            getNews() {                
+            getNews() {
                 let self = this;
                 axios.post('./news/get_all', this.query).then(function (response) {
                     self.news = response.data;
@@ -87,13 +87,19 @@
 
             applyFilters() {
                 let query = {};
-                ParamsFormatter.formatQuery(this.query, this.params, this.page);
+                this.query = ParamsFormatter.formatQuery(this.query, this.params, this.page);
+
                 this.updateRouter();
                 this.dialogVisible = false;
             },
 
             cancelFilters() {
-                ParamsFormatter.clearParams(this.params, this.query);
+                let cancelFiltering = ParamsFormatter.clearParams(this.params, this.query);
+                console.log(cancelFiltering);
+                this.query = cancelFiltering.query;
+                this.params = cancelFiltering.params;
+
+                // this.params = ParamsFormatter.clearParams(this.params, this.query);
                 this.updateRouter();
                 this.dialogVisible = false;
             },
