@@ -15,9 +15,9 @@ class NewsController extends Controller
         $this->newsService = $newsService;
     }
 
-    public function getAll($pageNumber)
+    public function getAll(Request $request)
     {
-        return $this->newsService->getAll($pageNumber);
+        return $this->newsService->getAll($request->all());
     }
 
     public function getFiltered(Request $request)

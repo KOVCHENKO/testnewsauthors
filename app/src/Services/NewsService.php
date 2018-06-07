@@ -18,8 +18,9 @@ class NewsService
     }
 
 
-    public function getAll($pageNumber)
+    public function getAll($data)
     {
+        $pageNumber = '';
         $skippedItems = ($pageNumber != 1) ? ($pageNumber - 1) * $this->newsNumberAtPage : 0;
 
         return $this->newsRepository->getAll($skippedItems, $this->newsNumberAtPage);
