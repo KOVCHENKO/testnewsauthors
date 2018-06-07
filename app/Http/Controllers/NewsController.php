@@ -17,7 +17,7 @@ class NewsController extends Controller
 
     public function getAll(Request $request)
     {
-        return $this->newsService->getAll($request->all());
+        return $this->newsService->getAll($request);
     }
 
     public function getById($id)

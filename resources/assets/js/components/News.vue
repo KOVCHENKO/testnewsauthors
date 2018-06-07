@@ -49,15 +49,20 @@
                     dateEnd: ''
                 },
                 page: 1,
-                query: {}             
+                query: {
+                    author_id: 0,
+                    date_start: '',
+                    date_end: '',
+                    page: 1
+                }
             }
         },
 
         methods: {
      
             getNews() {                
-                let self = this
-                axios.get('./news/get_all/' + this.page).then(function (response) {
+                let self = this;
+                axios.post('./news/get_all', this.query).then(function (response) {
                     self.news = response.data;
                 }).catch(function (error) {
                     console.log(error);
