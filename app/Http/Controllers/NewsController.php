@@ -15,13 +15,13 @@ class NewsController extends Controller
         $this->newsService = $newsService;
     }
 
-    public function getAll($pageNumber)
+    public function getAll(Request $request)
     {
-        return $this->newsService->getAll($pageNumber);
+        return $this->newsService->getAll($request);
     }
 
-    public function getFiltered(Request $request)
+    public function getById($id)
     {
-        return $this->newsService->getFiltered($request);
+        return $this->newsService->getById($id);
     }
 }

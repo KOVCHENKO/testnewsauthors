@@ -3,7 +3,9 @@
 namespace App\src\Services;
 
 
+use App\src\Models\News;
 use App\src\Repositories\NewsRepository;
+use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 
 class NewsService
@@ -17,16 +19,57 @@ class NewsService
         $this->newsRepository = $newsRepository;
     }
 
-
-    public function getAll($pageNumber)
+    public function getAll($data): Collection
     {
-        $skippedItems = ($pageNumber != 1) ? ($pageNumber - 1) * $this->newsNumberAtPage : 0;
+        $newsOfAuthor = $this->getForAuthor($data->author_id);
+        $filteredByDates = $this->filterDates($newsOfAuthor, $data->date_start, $data->date_end);
+        $newsAtPage = $this->getAtPage($data->page, $filteredByDates);
 
-        return $this->newsRepository->getAll($skippedItems, $this->newsNumberAtPage);
+        return $newsAtPage;
     }
 
-    public function getFiltered($filterData): Collection
+    private function getAtPage($page, Collection $news): Collection
     {
-        return $this->newsRepository->getFiltered($filterData->from, $filterData->to, $filterData->author);
+        if (!isset($page)) {
+            $page = 1;
+        }
+
+        $skippedItems = ($page != 1) ? ($page - 1) * $this->newsNumberAtPage : 0;
+
+        return $news->slice($skippedItems, $this->newsNumberAtPage);
+    }
+
+    private function getForAuthor($authorId): Collection
+    {
+        if (!isset($authorId)) {
+            return $this->newsRepository->getAll();
+        }
+
+        return $this->newsRepository->getAllNewsOfAuthor($authorId);
+    }
+
+    private function filterDates(Collection $news, $from, $to): Collection
+    {
+        if (!isset($from) && !isset($to)) {
+            return $news;
+        }
+
+        $fromDate = DateTime::createFromFormat('U', $from / 1000);
+        $toDate = DateTime::createFromFormat('U', $to / 1000);
+
+        return $news
+            ->where('created_at', '>', $fromDate->format('Y-m-d H:i:s'))
+            ->where('created_at', '<', $toDate);
+
+    }
+
+    public function getById(int $id): News
+    {
+        $singleNews = $this->newsRepository->getById($id);
+        $authorNewsCount = $this->newsRepository->getAuthorNewsCount($singleNews->author_id);
+
+        $singleNews->author->count = $authorNewsCount;
+
+        return $singleNews;
     }
 }

@@ -114187,6 +114187,12 @@ module.exports = function spread(callback) {
 
 
 var routes = [{
+    path: '/',
+    redirect: '/news?page=1'
+}, {
+    path: '/news?page=1',
+    component: __webpack_require__(319)
+}, {
     path: '/news',
     component: __webpack_require__(319)
 }, {
@@ -114240,6 +114246,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_TimeManipulationService__ = __webpack_require__(330);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__ = __webpack_require__(331);
 //
 //
 //
@@ -114276,6 +114285,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -114290,7 +114302,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dateEnd: ''
             },
             page: 1,
-            query: {}
+            query: {
+                author_id: 0,
+                date_start: '',
+                date_end: '',
+                page: 1
+            }
         };
     },
 
@@ -114298,7 +114315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getNews: function getNews() {
             var self = this;
-            axios.get('./news/get_all/' + this.page).then(function (response) {
+            axios.post('./news/get_all', this.query).then(function (response) {
                 self.news = response.data;
             }).catch(function (error) {
                 console.log(error);
@@ -114317,59 +114334,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         applyFilters: function applyFilters() {
             var query = {};
-            this.formatQuery();
+            __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].formatQuery(this.query, this.params, this.page);
             this.updateRouter();
             this.dialogVisible = false;
         },
         cancelFilters: function cancelFilters() {
-            this.clearParams();
+            __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].clearParams(this.params, this.query);
             this.updateRouter();
             this.dialogVisible = false;
-        },
-        formatQuery: function formatQuery() {
-            this.query = {};
-            for (var param in this.params) {
-                if (this.params[param] !== '' && this.params[param] !== null && this.params[param].getTime) {
-                    this.query[this.snakeCaseStr(param)] = moment(this.params[param]).format('x');
-                } else if (this.params[param] !== '' && this.params[param] !== null) {
-                    this.query[this.snakeCaseStr(param)] = this.params[param];
-                }
-            }
-            this.query.page = this.page;
-        },
-        clearParams: function clearParams() {
-            for (var param in this.params) {
-                this.params[param] = '';
-                delete this.query[this.snakeCaseStr(param)];
-            }
         },
         getParams: function getParams() {
             this.query = this.$route.query;
             for (var key in this.query) {
                 if (key === 'page') {
                     this.page = Number(this.query[key]);
-                } else if (this.isTimestamp(this.query[key])) {
-                    this.params[this.camelCaseStr(key)] = this.getDateByTimestamp(this.query[key]);
+                } else if (__WEBPACK_IMPORTED_MODULE_1__services_TimeManipulationService__["a" /* default */].isTimestamp(this.query[key])) {
+                    this.params[__WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__["a" /* default */].camelCaseStr(key)] = __WEBPACK_IMPORTED_MODULE_1__services_TimeManipulationService__["a" /* default */].getDateByTimestamp(this.query[key]);
                 } else {
-                    this.params[this.camelCaseStr(key)] = this.query[key];
+                    this.params[__WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__["a" /* default */].camelCaseStr(key)] = this.query[key];
                 }
             }
-        },
-        snakeCaseStr: function snakeCaseStr(str) {
-            return str.replace(/([A-Z])/g, '_$1').toLowerCase();
-        },
-        camelCaseStr: function camelCaseStr(str) {
-            return str.replace(/_([a-z])/g, function (m, w) {
-                return w.toUpperCase();
-            });
-        },
-        isTimestamp: function isTimestamp(str) {
-            return str.search(/^[0-9]{13}$/) === 0 ? true : false;
-        },
-        getDateByTimestamp: function getDateByTimestamp(timestamp) {
-            var date = new Date();
-            date.setTime(timestamp);
-            return date;
         },
         handleCurrentChange: function handleCurrentChange(val) {
             this.page = Number(val);
@@ -121923,6 +121907,121 @@ var index_esm = {
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(n,e){ true?module.exports=e():"function"==typeof define&&define.amd?define(e):(n.__vee_validate_locale__ru=n.__vee_validate_locale__ru||{},n.__vee_validate_locale__ru.js=e())}(this,function(){"use strict";var n,e={name:"ru",messages:{after:function(n,e){return"В поле "+n+" должна быть дата после "+e[0]+"."},alpha_dash:function(n){return"Поле "+n+" может содержать только буквы, цифры и дефис."},alpha_num:function(n){return"Поле "+n+" может содержать только буквы и цифры."},alpha_spaces:function(n){return"Поле "+n+" может содержать только буквы и пробелы."},alpha:function(n){return"Поле "+n+" может содержать только буквы."},before:function(n,e){return"В поле "+n+" должна быть дата до "+e[0]+"."},between:function(n,e){return"Поле "+n+" должно быть между "+e[0]+" и "+e[1]+"."},confirmed:function(n,e){return"Поле "+n+" не совпадает с "+e[0]+"."},credit_card:function(n){return"Поле "+n+" должно быть действительным номером карты"},date_between:function(n,e){return"Поле "+n+" должно быть между "+e[0]+" и "+e[1]+"."},date_format:function(n,e){return"Поле "+n+" должно быть в формате "+e[0]+"."},decimal:function(n,e){void 0===e&&(e=[]);var t=e[0];return void 0===t&&(t="*"),"Поле "+n+" должно быть числовым и может содержать "+("*"===t?"":t)+" десятичных числа."},digits:function(n,e){return"Поле "+n+" должно быть числовым и точно содержать "+e[0]+" цифры."},dimensions:function(n,e){return"Поле "+n+" должно быть "+e[0]+" пикселей на "+e[1]+" пикселей."},email:function(n){return"Поле "+n+" должно быть действительным электронным адресом."},ext:function(n,e){return"Поле "+n+" должно быть действительным файлом. ("+e.slice(0)+")"},image:function(n){return"Поле "+n+" должно быть изображением."},included:function(n){return"Поле "+n+" должно быть допустимым значением."},ip:function(n){return"Поле "+n+" должно быть действительным IP-адресом."},max:function(n,e){return"Поле "+n+" не может быть более "+e[0]+" символов."},max_value:function(n,e){return"Поле "+n+" должно быть "+e[0]+" или менее."},mimes:function(n,e){return"Поле "+n+" должно иметь действительный тип файла. ("+e.slice(0)+")"},min:function(n,e){return"Поле "+n+" должно быть не менее "+e[0]+" символов."},min_value:function(n,e){return"Поле "+n+" должно быть "+e[0]+" или больше."},excluded:function(n){return"Поле "+n+" должно быть допустимым значением."},numeric:function(n){return"Поле "+n+" должно быть числом."},regex:function(n){return"Поле "+n+" имеет ошибочный формат."},required:function(n){return"Поле "+n+" обязательно для заполнения."},size:function(n,e){var t,r,u,i=e[0];return"Поле "+n+" должно быть меньше, чем "+(t=i,r=1024,u=0==(t=Number(t)*r)?0:Math.floor(Math.log(t)/Math.log(r)),1*(t/Math.pow(r,u)).toFixed(2)+" "+["Byte","KB","MB","GB","TB","PB","EB","ZB","YB"][u])+"."},url:function(n){return"Поле "+n+" имеет ошибочный формат URL."}},attributes:{}};return"undefined"!=typeof VeeValidate&&VeeValidate.Validator.localize(((n={})[e.name]=e,n)),e});
+
+/***/ }),
+/* 329 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DataFormatter = function () {
+    function DataFormatter() {
+        _classCallCheck(this, DataFormatter);
+    }
+
+    _createClass(DataFormatter, null, [{
+        key: 'snakeCaseStr',
+        value: function snakeCaseStr(str) {
+            return str.replace(/([A-Z])/g, '_$1').toLowerCase();
+        }
+    }, {
+        key: 'camelCaseStr',
+        value: function camelCaseStr(str) {
+            return str.replace(/_([a-z])/g, function (m, w) {
+                return w.toUpperCase();
+            });
+        }
+    }]);
+
+    return DataFormatter;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (DataFormatter);
+
+/***/ }),
+/* 330 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TimeManipulationService = function () {
+    function TimeManipulationService() {
+        _classCallCheck(this, TimeManipulationService);
+    }
+
+    _createClass(TimeManipulationService, null, [{
+        key: "isTimestamp",
+        value: function isTimestamp(str) {
+            return str.search(/^[0-9]{13}$/) === 0;
+        }
+    }, {
+        key: "getDateByTimestamp",
+        value: function getDateByTimestamp(timestamp) {
+            var date = new Date();
+            date.setTime(timestamp);
+            return date;
+        }
+    }]);
+
+    return TimeManipulationService;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (TimeManipulationService);
+
+/***/ }),
+/* 331 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DataFormatter__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TimeManipulationService__ = __webpack_require__(330);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+var ParamsFormatter = function () {
+    function ParamsFormatter() {
+        _classCallCheck(this, ParamsFormatter);
+    }
+
+    _createClass(ParamsFormatter, [{
+        key: 'formatQuery',
+        value: function formatQuery(query, params, page) {
+            query = {};
+            for (var param in params) {
+                if (params[param] !== '' && params[param] !== null && params[param].getTime) {
+                    query[__WEBPACK_IMPORTED_MODULE_0__DataFormatter__["a" /* default */].snakeCaseStr(param)] = moment(params[param]).format('x');
+                } else if (params[param] !== '' && params[param] !== null) {
+                    query[__WEBPACK_IMPORTED_MODULE_0__DataFormatter__["a" /* default */].snakeCaseStr(param)] = params[param];
+                }
+            }
+            query.page = page;
+
+            return query;
+        }
+    }, {
+        key: 'clearParams',
+        value: function clearParams(params, query) {
+            for (var param in params) {
+                params[param] = '';
+                delete query[__WEBPACK_IMPORTED_MODULE_0__DataFormatter__["a" /* default */].snakeCaseStr(param)];
+            }
+        }
+    }]);
+
+    return ParamsFormatter;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (ParamsFormatter);
 
 /***/ })
 /******/ ]);

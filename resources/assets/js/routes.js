@@ -1,6 +1,15 @@
 import VueRouter from 'vue-router';
 
 let routes = [
+    {
+        path: '/',
+        redirect: '/news?page=1'
+    },
+
+    {
+        path: '/news?page=1',
+        component: require('./components/News.vue')
+    },
 
     {
         path: '/news',
