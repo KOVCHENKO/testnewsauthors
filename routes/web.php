@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::prefix('news/')->group(function() {
     Route::post('get_all', 'NewsController@getAll');
-    Route::post('get_filtered', 'NewsController@getFiltered');
+    Route::get('get_by_id/{id}', 'NewsController@getById');
 });
 
 Route::prefix('authors/')->group(function() {

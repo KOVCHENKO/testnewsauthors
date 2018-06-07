@@ -20,8 +20,8 @@ class NewsController extends Controller
         return $this->newsService->getAll($request->all());
     }
 
-    public function getFiltered(Request $request)
+    public function getById($id)
     {
-        return $this->newsService->getFiltered($request);
+        return $this->newsService->getById($id);
     }
 }

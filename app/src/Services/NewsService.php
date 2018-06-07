@@ -20,6 +20,7 @@ class NewsService
 
     public function getAll($data)
     {
+        dd($data);
         $pageNumber = '';
         $skippedItems = ($pageNumber != 1) ? ($pageNumber - 1) * $this->newsNumberAtPage : 0;
 
@@ -29,5 +30,9 @@ class NewsService
     public function getFiltered($filterData): Collection
     {
         return $this->newsRepository->getFiltered($filterData->from, $filterData->to, $filterData->author);
+    }
+
+    public function getById($id)
+    {
     }
 }
