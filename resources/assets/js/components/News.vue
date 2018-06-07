@@ -6,6 +6,11 @@
             <el-table-column prop="description" label="Описание" width="180"></el-table-column>
             <el-table-column prop="author.name" label="Автор" width="180"></el-table-column>
             <el-table-column prop="created_at" label="Создание" width="180"></el-table-column>
+            <el-table-column fixed="right" label="Operations" width="180">
+            <template slot-scope="scope">
+                <el-button @click="handleMoreInfo($route.path + '/' + news[scope.$index].id)">Подробнее</el-button>
+            </template>
+            </el-table-column>
         </el-table>
         
         <el-pagination @current-change="handleCurrentChange"
@@ -98,6 +103,10 @@
                 this.dialogVisible = false;
             },
 
+            handleMoreInfo(path) {
+                this.$router.push(path)
+            },
+
             getParams() {
                 this.query = this.$route.query;
                 for (let key in this.query) {
@@ -121,7 +130,7 @@
             },
 
             updateRouter() {
-                this.$router.replace('/news');
+                this.$router.replace(this.$route.path);
                 this.$router.push({ query: this.query});
             }
 

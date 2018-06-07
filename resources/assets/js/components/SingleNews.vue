@@ -1,11 +1,37 @@
 <template>
     <div>
-        <el-table :data="news" stripe style="width: 100%">
-            <el-table-column prop="name" label="Название" width="180"></el-table-column>
-            <el-table-column prop="created_at" label="Дата" width="180"></el-table-column>
-            <el-table-column prop="description" label="Описание" width="180"></el-table-column>
-            <el-table-column prop="author.name" label="Автор" width="180"></el-table-column>
-        </el-table>
+        <div class="row">
+            <div class="col-sm">
+                Название
+            </div>
+            <div class="col-sm">
+                {{news.name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Дата
+            </div>
+            <div class="col-sm">
+                {{news.created_at}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Подробное описание
+            </div>
+            <div class="col-sm">
+                {{news.description}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                Автор
+            </div>
+            <div class="col-sm">
+                {{authorDescription}}
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -14,13 +40,27 @@
 
         data() {
             return {
-                news : {}
+                news : {
+                    name : '',
+                    created_at : '',
+                    description : '',
+                    author : {
+                        name : '',
+                        rating : '', 
+                        count : ''
+                    }
+                }
             }
         },
 
         methods: {
-            getNewsById(){
-
+            getNewsById(id){
+                let self = this;
+                axios.get('./news/get_by_id/' + id).then(function (response) {
+                    self.news = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
             }
         },
 
@@ -28,6 +68,15 @@
             let id = this.$route.params.id;
             this.getNewsById(id);
         },
+
+        computed: {
+              
+            authorDescription: function() {
+                return this.news.author.name + '. Рейтинг : ' + this.news.author.rating + 
+                    '. Количество новостей : ' + this.news.author.count;
+            }
+
+        }
     }
 
 </script>

@@ -114285,6 +114285,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -114343,6 +114348,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.updateRouter();
             this.dialogVisible = false;
         },
+        handleMoreInfo: function handleMoreInfo(path) {
+            this.$router.push(path);
+        },
         getParams: function getParams() {
             this.query = this.$route.query;
             for (var key in this.query) {
@@ -114361,7 +114369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.updateRouter();
         },
         updateRouter: function updateRouter() {
-            this.$router.replace('/news');
+            this.$router.replace(this.$route.path);
             this.$router.push({ query: this.query });
         }
     },
@@ -114425,6 +114433,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "Создание",
       "width": "180"
     }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "Operations",
+      "width": "180"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          on: {
+            "click": function($event) {
+              _vm.handleMoreInfo(_vm.$route.path + '/' + _vm.news[scope.$index].id)
+            }
+          }
+        }, [_vm._v("Подробнее")])]
+      }
+    }])
   })], 1), _vm._v(" "), _c('el-pagination', {
     attrs: {
       "layout": "prev, pager, next",
@@ -114569,23 +114595,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            news: {}
+            news: {
+                name: '',
+                created_at: '',
+                description: '',
+                author: {
+                    name: '',
+                    rating: '',
+                    count: ''
+                }
+            }
         };
     },
 
 
     methods: {
-        getNewsById: function getNewsById() {}
+        getNewsById: function getNewsById(id) {
+            var self = this;
+            axios.get('./news/get_by_id/' + id).then(function (response) {
+                self.news = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     },
 
     created: function created() {
         var id = this.$route.params.id;
         this.getNewsById(id);
+    },
+
+
+    computed: {
+
+        authorDescription: function authorDescription() {
+            return this.news.author.name + '. Рейтинг : ' + this.news.author.rating + '. Количество новостей : ' + this.news.author.count;
+        }
+
     }
 });
 
@@ -114594,39 +114671,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('el-table', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "data": _vm.news,
-      "stripe": ""
-    }
-  }, [_c('el-table-column', {
-    attrs: {
-      "prop": "name",
-      "label": "Название",
-      "width": "180"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "created_at",
-      "label": "Дата",
-      "width": "180"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "description",
-      "label": "Описание",
-      "width": "180"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "author.name",
-      "label": "Автор",
-      "width": "180"
-    }
-  })], 1)], 1)
+  return _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            Название\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            " + _vm._s(_vm.news.name) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            Дата\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            " + _vm._s(_vm.news.created_at) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            Подробное описание\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            " + _vm._s(_vm.news.description) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            Автор\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm"
+  }, [_vm._v("\n            " + _vm._s(_vm.authorDescription) + "\n        ")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
