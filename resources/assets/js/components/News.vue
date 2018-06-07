@@ -35,6 +35,9 @@
     </div>
 </template>
 <script>
+    import DataFormatter from '../services/utils/DataFormatter';
+    import TimeManipulationService from '../services/TimeManipulationService';
+    import ParamsFormatter from '../services/utils/ParamsFormatter';
 
     export default {
 
@@ -84,35 +87,15 @@
 
             applyFilters() {
                 let query = {};
-                this.formatQuery();
+                ParamsFormatter.formatQuery(this.query, this.params, this.page);
                 this.updateRouter();
                 this.dialogVisible = false;
             },
 
             cancelFilters() {
-                this.clearParams();
+                ParamsFormatter.clearParams(this.params, this.query);
                 this.updateRouter();
                 this.dialogVisible = false;
-            },
-
-            formatQuery() {
-                this.query = {};
-                for (let param in this.params) {
-                    if (this.params[param] !== '' && this.params[param] !== null && this.params[param].getTime) {
-                        this.query[this.snakeCaseStr(param)] = moment(this.params[param]).format('x');
-                    }
-                    else if (this.params[param] !== '' && this.params[param] !== null) {
-                        this.query[this.snakeCaseStr(param)] = this.params[param];
-                    }
-                }
-                this.query.page = this.page;
-            },
-
-            clearParams() {
-                for (let param in this.params) {
-                    this.params[param] = '';
-                    delete this.query[this.snakeCaseStr(param)];
-                }
             },
 
             getParams() {
@@ -121,35 +104,16 @@
                     if (key === 'page') {
                         this.page = Number(this.query[key]);
                     }
-                    else if (this.isTimestamp(this.query[key])) {
-                        this.params[this.camelCaseStr(key)] = this.getDateByTimestamp(this.query[key]);
+                    else if (TimeManipulationService.isTimestamp(this.query[key])) {
+                        this.params[DataFormatter.camelCaseStr(key)] = TimeManipulationService.getDateByTimestamp(this.query[key]);
                     }
                     else {
-                        this.params[this.camelCaseStr(key)] = this.query[key];
+                        this.params[DataFormatter.camelCaseStr(key)] = this.query[key];
                     }
                 }
             },
 
-            snakeCaseStr(str) {
-                return str.replace(/([A-Z])/g, '_$1').toLowerCase();
-            },
 
-            camelCaseStr(str) {
-                return str.replace(/_([a-z])/g, function (m, w) {
-                    return w.toUpperCase();
-                });
-            },
-
-            isTimestamp(str) {
-                return (str.search(/^[0-9]{13}$/) === 0) ? true : false;
-            },
-
-            getDateByTimestamp(timestamp) {
-                let date = new Date();
-                date.setTime(timestamp);
-                return date;
-            },
-            
             handleCurrentChange(val) {
                 this.page = Number(val);
                 this.query.page = this.page;
