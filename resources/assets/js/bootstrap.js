@@ -13,6 +13,13 @@ import locale from 'element-ui/lib/locale/lang/ru-RU'
 Vue.use(ElementUI, { locale });
 // window.Popper = require('popper.js').default;
 window.moment = require('moment');
+
+import VeeValidate, { Validator } from 'vee-validate';
+import ru from 'vee-validate/dist/locale/ru';
+Validator.localize('ru', ru);
+Vue.use(VeeValidate, {
+    fieldsBagName: 'formFields'
+});
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
