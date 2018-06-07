@@ -39,7 +39,7 @@ class NewsService
         return $news->slice($skippedItems, $this->newsNumberAtPage);
     }
 
-    private function getForAuthor(int $authorId): Collection
+    private function getForAuthor($authorId): Collection
     {
         if (!isset($authorId)) {
             return $this->newsRepository->getAll();
@@ -48,7 +48,7 @@ class NewsService
         return $this->newsRepository->getAllNewsOfAuthor($authorId);
     }
 
-    private function filterDates(Collection $news, string $from, string $to): Collection
+    private function filterDates(Collection $news, $from, $to): Collection
     {
         if (!isset($from) && !isset($to)) {
             return $news;
