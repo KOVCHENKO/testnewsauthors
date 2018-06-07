@@ -19,13 +19,13 @@ class NewsService
         $this->newsRepository = $newsRepository;
     }
 
-    public function getAll($data): Collection
+    public function getAll($data): array
     {
         $newsOfAuthor = $this->getForAuthor($data->author_id);
         $filteredByDates = $this->filterDates($newsOfAuthor, $data->date_start, $data->date_end);
         $newsAtPage = $this->getAtPage($data->page, $filteredByDates);
 
-        return $newsAtPage;
+        return $newsAtPage->toArray();
     }
 
     private function getAtPage($page, Collection $news): Collection

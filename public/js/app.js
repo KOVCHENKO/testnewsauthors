@@ -114339,12 +114339,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         applyFilters: function applyFilters() {
             var query = {};
-            __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].formatQuery(this.query, this.params, this.page);
+            this.query = __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].formatQuery(this.query, this.params, this.page);
+
             this.updateRouter();
             this.dialogVisible = false;
         },
         cancelFilters: function cancelFilters() {
-            __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].clearParams(this.params, this.query);
+            var cancelFiltering = __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].clearParams(this.params, this.query);
+            console.log(cancelFiltering);
+            this.query = cancelFiltering.query;
+            this.params = cancelFiltering.params;
+
+            // this.params = ParamsFormatter.clearParams(this.params, this.query);
             this.updateRouter();
             this.dialogVisible = false;
         },
@@ -122062,7 +122068,7 @@ var ParamsFormatter = function () {
         _classCallCheck(this, ParamsFormatter);
     }
 
-    _createClass(ParamsFormatter, [{
+    _createClass(ParamsFormatter, null, [{
         key: 'formatQuery',
         value: function formatQuery(query, params, page) {
             query = {};
@@ -122084,6 +122090,13 @@ var ParamsFormatter = function () {
                 params[param] = '';
                 delete query[__WEBPACK_IMPORTED_MODULE_0__DataFormatter__["a" /* default */].snakeCaseStr(param)];
             }
+
+            var result = {};
+
+            result.query = query;
+            result.params = params;
+
+            return result;
         }
     }]);
 

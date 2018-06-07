@@ -3,7 +3,7 @@ import TimeManipulationService from '../TimeManipulationService';
 
 export default class ParamsFormatter {
 
-    formatQuery(query, params, page) {
+    static formatQuery(query, params, page) {
         query = {};
         for (let param in params) {
             if (params[param] !== '' && params[param] !== null && params[param].getTime) {
@@ -18,11 +18,18 @@ export default class ParamsFormatter {
         return query;
     }
 
-    clearParams(params, query) {
+    static clearParams(params, query) {
         for (let param in params) {
             params[param] = '';
             delete query[DataFormatter.snakeCaseStr(param)];
         }
+
+        let result = {};
+
+        result.query = query;
+        result.params = params;
+
+        return result;
     }
 
 }
