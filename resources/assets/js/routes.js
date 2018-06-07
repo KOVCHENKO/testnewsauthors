@@ -7,6 +7,11 @@ let routes = [
         component: require('./components/News.vue')
     },
 
+    {
+        path: '/news/:id',
+        component: require('./components/SingleNews.vue')
+    },
+
 ];
 
 const router = new VueRouter({
