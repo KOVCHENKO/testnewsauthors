@@ -7,3 +7,41 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.container-news {
+
+    #app {
+        margin: 40px;
+    }
+    
+    .el-table__header, .el-table__body {
+        margin: auto;
+        border: 1px solid #b9b9b9;
+    }
+
+    .el-pagination {
+        text-align: center;
+    }
+
+    .el-table__body-wrapper, .el-table__header-wrapper {
+            background: #f5f8fa;
+    }
+
+    .caption {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .el-button {
+        float: right;
+    }
+
+    .el-dialog {
+        width: 40% !important;
+    }
+    
+    .el-dialog__footer {
+        height: 70px;
+    }
+
+}

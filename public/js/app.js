@@ -114290,6 +114290,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -114401,7 +114405,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('el-button', {
+  return _c('div', {
+    staticClass: "container-news"
+  }, [_vm._m(0), _vm._v(" "), _c('div', [_c('el-button', {
     on: {
       "click": function($event) {
         _vm.dialogVisible = true
@@ -114441,8 +114447,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "fixed": "right",
-      "label": "Operations",
+      "label": "Операция",
       "width": "180"
     },
     scopedSlots: _vm._u([{
@@ -114481,12 +114486,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dialogVisible = $event
       }
     }
-  }, [_c('span', {
-    staticClass: "dialog-footer",
-    attrs: {
-      "slot": "footer"
-    },
-    slot: "footer"
   }, [_c('p', [_vm._v("Дата создания новости")]), _vm._v(" "), _c('el-date-picker', {
     attrs: {
       "type": "date",
@@ -114511,7 +114510,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "params.dateEnd"
     }
-  }), _vm._v(" "), _c('p', [_vm._v("Автор")]), _vm._v(" "), _c('el-select', {
+  }), _vm._v(" "), _c('hr'), _vm._v(" "), _c('p', [_vm._v("Автор")]), _vm._v(" "), _c('el-select', {
     attrs: {
       "placeholder": "Select"
     },
@@ -114530,19 +114529,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": item.id
       }
     })
-  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('el-button', {
-    on: {
-      "click": _vm.cancelFilters
-    }
-  }, [_vm._v("Отменить")]), _vm._v(" "), _c('el-button', {
+  })), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
     attrs: {
       "type": "primary"
     },
     on: {
       "click": _vm.applyFilters
     }
-  }, [_vm._v("Применить")])], 1)])], 1)
-},staticRenderFns: []}
+  }, [_vm._v("Применить")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.cancelFilters
+    }
+  }, [_vm._v("Отменить")])], 1)], 1)], 1)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "caption"
+  }, [_c('h3', [_vm._v("Новости")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -114591,17 +114600,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -114677,31 +114675,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
+  return _c('div', [_c('div', [_c('h3', [_vm._v(_vm._s(_vm.news.name))])]), _vm._v(" "), _c('div', [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            Название\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            " + _vm._s(_vm.news.name) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_vm._v("Название")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-4"
+  }, [_vm._v(_vm._s(_vm.news.name))])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            Дата\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            " + _vm._s(_vm.news.created_at) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_vm._v("Дата")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-4"
+  }, [_vm._v(_vm._s(_vm.news.created_at))])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            Подробное описание\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            " + _vm._s(_vm.news.description) + "\n        ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-2"
+  }, [_vm._v("Подробное описание")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-4"
+  }, [_vm._v(_vm._s(_vm.news.description))])]), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            Автор\n        ")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm"
-  }, [_vm._v("\n            " + _vm._s(_vm.authorDescription) + "\n        ")])])])
+    staticClass: "col-sm-2"
+  }, [_vm._v("Автор")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-4"
+  }, [_vm._v(_vm._s(_vm.authorDescription))])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
