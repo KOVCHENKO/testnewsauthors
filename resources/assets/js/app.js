@@ -1,5 +1,6 @@
 import './bootstrap';
 import router from './routes';
+import { store } from './store/store';
 
 Vue.mixin({
     methods: {
@@ -11,6 +12,7 @@ Vue.mixin({
 
 const app = new Vue({
     el: '#app',
-    router: router
+    router: router,
+    store: store
 });
 

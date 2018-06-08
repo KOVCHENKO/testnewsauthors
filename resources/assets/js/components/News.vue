@@ -52,16 +52,13 @@
 
         data() {
             return {
-                news: [],
                 dialogVisible: false,
-                authors: [],
                 params: {
                     authorId: '',
                     dateStart: '',
                     dateEnd: ''
                 },
                 page: 1,
-                countPage: 0,
                 query: {
                     author_id: 0,
                     date_start: '',
@@ -71,16 +68,30 @@
             }
         },
 
+        computed: {
+            news() {
+                return $.map(this.$store.state.news.news, function(value, index) {
+                    return [value];
+                });
+            },
+
+            countPage() {
+                return this.$store.state.news.countPage;
+            },
+
+            authors: {
+                get() { return this.$store.state.authors.authors },
+                set(value) { return this.$store.state.authors.authors = value }
+            },
+        },
+
+
+
         methods: {
      
             getNews() {
                 let self = this;
-                axios.post('./news/get_all', this.query).then(function (response) {
-                    self.news = response.data.data;
-                    self.countPage = response.data.page_quantity;
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                this.$store.dispatch('getNews', { query: this.query });
             },
 
             handleClose(done) {
@@ -88,12 +99,7 @@
             },
 
             loadAuthors() {
-                let self = this
-                axios.get('./authors/get_all').then(function (response) {
-                    self.authors = response.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                this.$store.dispatch('getAuthors');
             },
 
             applyFilters() {
