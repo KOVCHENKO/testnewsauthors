@@ -114311,6 +114311,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 dateEnd: ''
             },
             page: 1,
+            countPage: 0,
             query: {
                 author_id: 0,
                 date_start: '',
@@ -114325,7 +114326,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getNews: function getNews() {
             var self = this;
             axios.post('./news/get_all', this.query).then(function (response) {
-                self.news = response.data;
+                self.news = response.data.data;
+                self.countPage = response.data.page_quantity;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -114350,11 +114352,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancelFilters: function cancelFilters() {
             var cancelFiltering = __WEBPACK_IMPORTED_MODULE_2__services_utils_ParamsFormatter__["a" /* default */].clearParams(this.params, this.query);
-            console.log(cancelFiltering);
             this.query = cancelFiltering.query;
             this.params = cancelFiltering.params;
-
-            // this.params = ParamsFormatter.clearParams(this.params, this.query);
             this.updateRouter();
             this.dialogVisible = false;
         },
@@ -114369,7 +114368,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 } else if (__WEBPACK_IMPORTED_MODULE_1__services_TimeManipulationService__["a" /* default */].isTimestamp(this.query[key])) {
                     this.params[__WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__["a" /* default */].camelCaseStr(key)] = __WEBPACK_IMPORTED_MODULE_1__services_TimeManipulationService__["a" /* default */].getDateByTimestamp(this.query[key]);
                 } else {
-                    this.params[__WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__["a" /* default */].camelCaseStr(key)] = this.query[key];
+                    this.params[__WEBPACK_IMPORTED_MODULE_0__services_utils_DataFormatter__["a" /* default */].camelCaseStr(key)] = Number(this.query[key]);
                 }
             }
         },
@@ -114465,7 +114464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('el-pagination', {
     attrs: {
       "layout": "prev, pager, next",
-      "total": 1000,
+      "page-count": _vm.countPage,
       "current-page": _vm.page
     },
     on: {

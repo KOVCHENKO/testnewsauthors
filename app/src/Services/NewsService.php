@@ -24,8 +24,12 @@ class NewsService
         $newsOfAuthor = $this->getForAuthor($data->author_id);
         $filteredByDates = $this->filterDates($newsOfAuthor, $data->date_start, $data->date_end);
         $newsAtPage = $this->getAtPage($data->page, $filteredByDates);
+        $pagesQuantity = $this->getPagesQuantity($filteredByDates);
 
-        return $newsAtPage->toArray();
+        $news['data'] = $newsAtPage->toArray();
+        $news['page_quantity'] = $pagesQuantity;
+
+        return $news;
     }
 
     private function getAtPage($page, Collection $news): Collection
@@ -71,5 +75,10 @@ class NewsService
         $singleNews->author->count = $authorNewsCount;
 
         return $singleNews;
+    }
+
+    private function getPagesQuantity(Collection $filteredByDates): int
+    {
+        return ceil($filteredByDates->count() / $this->newsNumberAtPage);
     }
 }

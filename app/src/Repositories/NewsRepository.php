@@ -34,6 +34,7 @@ class NewsRepository
     public function getAllNewsOfAuthor($authorId)
     {
         return $this->news
+            ->with('author')
             ->where('author_id', $authorId)
             ->get();
     }

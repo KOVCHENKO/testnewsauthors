@@ -18,7 +18,7 @@
             </el-table>
             
             <el-pagination @current-change="handleCurrentChange"
-                layout="prev, pager, next" :total="1000" :current-page.sync="page"></el-pagination>
+                layout="prev, pager, next" :page-count="countPage" :current-page.sync="page"></el-pagination>
 
             <el-dialog title="Фильтры" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
                 <p>Дата создания новости</p>
@@ -61,6 +61,7 @@
                     dateEnd: ''
                 },
                 page: 1,
+                countPage: 0,
                 query: {
                     author_id: 0,
                     date_start: '',
@@ -75,7 +76,8 @@
             getNews() {
                 let self = this;
                 axios.post('./news/get_all', this.query).then(function (response) {
-                    self.news = response.data;
+                    self.news = response.data.data;
+                    self.countPage = response.data.page_quantity;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -104,11 +106,8 @@
 
             cancelFilters() {
                 let cancelFiltering = ParamsFormatter.clearParams(this.params, this.query);
-                console.log(cancelFiltering);
                 this.query = cancelFiltering.query;
                 this.params = cancelFiltering.params;
-
-                // this.params = ParamsFormatter.clearParams(this.params, this.query);
                 this.updateRouter();
                 this.dialogVisible = false;
             },
@@ -127,7 +126,7 @@
                         this.params[DataFormatter.camelCaseStr(key)] = TimeManipulationService.getDateByTimestamp(this.query[key]);
                     }
                     else {
-                        this.params[DataFormatter.camelCaseStr(key)] = this.query[key];
+                        this.params[DataFormatter.camelCaseStr(key)] = Number(this.query[key]);
                     }
                 }
             },
