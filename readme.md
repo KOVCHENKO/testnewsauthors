@@ -1,8 +1,8 @@
 ##УСТАНОВКА
 
-git clone https://github.com/KOVCHENKO/testnewsauthors.gt   
-sudo chmod -R 777 testnewauthors    
-cd testnewauthors    
+git clone https://github.com/KOVCHENKO/testnewsauthors.git   
+sudo chmod -R 777 testnewsauthors    
+cd testnewsauthors    
 
 docker-compose up  -d    
 docker exec -it appbolgofteam php artisan migrate    
